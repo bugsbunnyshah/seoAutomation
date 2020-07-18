@@ -1,0 +1,87 @@
+plugins {
+    id 'application'
+    id 'io.quarkus' version '1.4.2.Final'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    google()
+    maven {
+        url "http://download.java.net/maven/2/"
+    }
+    maven {
+        url "http://download.osgeo.org/webdav/geotools/"
+    }
+    maven {
+        url "http://repo.boundlessgeo.com/main/"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/releases/"
+    }
+    flatDir {
+        dirs 'thirdparty-libs'
+    }
+}
+
+dependencies {
+    implementation enforcedPlatform('io.quarkus:quarkus-bom:1.4.2.Final')
+    implementation 'io.quarkus:quarkus-resteasy:1.4.2.Final'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
+    testImplementation enforcedPlatform('io.quarkus:quarkus-bom:1.4.2.Final')
+    testImplementation 'io.quarkus:quarkus-junit5:1.4.2.Final'
+    testImplementation 'io.rest-assured:rest-assured:4.3.0'
+}
+
+//application {
+mainClassName = 'io.seo.parser.JsoupParserPrototype'
+//}
+
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+test {
+    //jvmArgs '-Djava.library.path=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home'
+    useJUnitPlatform()
+    filter {
+        //include specific method in any of the tests
+        includeTestsMatching "*Tests"
+
+        //include all tests from package
+        //includeTestsMatching "org.gradle.internal.*"
+
+        //include all integration tests
+        //includeTestsMatching "*IntegTest"
+    }
+    //createPom();
+}
+
+shadowJar {
+    zip64 true
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            // augment your pom here if necessary
+        }
+    }
+}
+
+task createPom(type: Copy) {
+    description 'This is workaround to generate pom.xml, needed for @QuarkusTest tests.'
+    dependsOn('generatePomFileForMavenJavaPublication')
+    from "$buildDir/publications/mavenJava/pom-default.xml"
+    into '.'
+    rename('pom-default.xml', 'pom.xml')
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
