@@ -29,7 +29,10 @@ repositories {
 dependencies {
     implementation enforcedPlatform('io.quarkus:quarkus-bom:1.4.2.Final')
     implementation 'io.quarkus:quarkus-resteasy:1.4.2.Final'
+
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     testImplementation enforcedPlatform('io.quarkus:quarkus-bom:1.4.2.Final')
     testImplementation 'io.quarkus:quarkus-junit5:1.4.2.Final'
     testImplementation 'io.rest-assured:rest-assured:4.3.0'

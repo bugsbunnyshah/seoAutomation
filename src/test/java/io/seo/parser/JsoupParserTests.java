@@ -17,12 +17,16 @@ public class JsoupParserTests {
     public void testJsoup() throws Exception
     {
         Document doc = Jsoup.connect("https://en.wikipedia.org/").get();
+
+        logger.info("********");
         logger.info(doc.title());
-        Elements newsHeadlines = doc.select("#mp-itn b a");
+        logger.info("********");
+
+        /*Elements newsHeadlines = doc.select("#mp-itn b a");
         for (Element headline : newsHeadlines)
         {
             logger.info(headline.attr("title")+":"+headline.absUrl("href"));
-        }
+        }*/
     }
 
 }
