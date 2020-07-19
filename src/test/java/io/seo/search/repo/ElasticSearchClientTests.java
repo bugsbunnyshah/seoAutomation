@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.List;
 
 @QuarkusTest
 public class ElasticSearchClientTests {
@@ -52,5 +53,17 @@ public class ElasticSearchClientTests {
         jsonArray.add(jsonObject);
 
         logger.info(this.elasticSearchClient.updateIndex(jsonArray));
+    }
+
+    @Test
+    public void testSearch() throws Exception
+    {
+        List<String> search = this.elasticSearchClient.search();
+
+        for(String content:search)
+        {
+            logger.info(content);
+            logger.info("*******");
+        }
     }
 }

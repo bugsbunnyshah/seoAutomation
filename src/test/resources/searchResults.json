@@ -1,0 +1,39 @@
+{
+  "took": 1,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 2,
+      "relation": "eq"
+    },
+    "max_score": 1.0,
+    "hits": [
+      {
+        "_index": "seo",
+        "_type": "_doc",
+        "_id": "1",
+        "_score": 1.0,
+        "_source": {
+          "dataId": "1",
+          "data": "Come one come all. We have the best Nike T-Shrits on Sale. We carry everything else but Under Armor. Our Tennis rackets are the best in the bijness. We give away Head, Dunlop, and Purple Man special racket. But rackets with a big circumference that make tok tok noise are never sold here. You have to order it from www.switzerland.gov. The kits are the perfect size. It will help you find your zone and then your partner can carry it, while you recover from a long match. We sell the best shoes, but the most special ones are produced for special people that eat lots of pizzzazzs. When they play, you are going to need lots of sweatbands, lots of pairs of shorts, and best done without an underwear to prevent chaffing."
+        }
+      },
+      {
+        "_index": "seo",
+        "_type": "_doc",
+        "_id": "2",
+        "_score": 1.0,
+        "_source": {
+          "dataId": "2",
+          "data": "Nike T-shirts > Image is Everything Brand > Razor free.\nUnder Armor Hats > Never before 5:30 am US EST.\nHead > Spiderman Brand.\nDunlop > On a comback trail from Sweden, Australia.\nPurple Man > Special racket > No underwear free.\nTok Tok Racket > Never sold here > Always and forever at https://rogerfederer.com/\nMakeup kits > All kits that are perfect size and perfect size only sold by: https://www.7.life/sf/"
+        }
+      }
+    ]
+  }
+}
