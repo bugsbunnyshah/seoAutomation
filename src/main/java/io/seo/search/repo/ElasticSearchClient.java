@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.text.MessageFormat;
 
 @ApplicationScoped
 public class ElasticSearchClient {
@@ -20,28 +19,25 @@ public class ElasticSearchClient {
     {
         try
         {
-            StringBuilder dataBuilder = new StringBuilder();
+            StringBuilder responseBuilder = new StringBuilder();
 
+            HttpClient httpClient = HttpClient.newBuilder().build();
             int length = jsonDocs.size();
             for(int i=0; i<length; i++)
             {
                 JsonObject jsonObject = jsonDocs.get(i).getAsJsonObject();
-                String indexString = MessageFormat.format("{0}\"index\":{0}\"_id\":\"{2}\"{1}{1}",
-                        "{", "}", jsonObject.get("ingestionId").getAsString());
+                String dataId = jsonObject.get("dataId").getAsString();
                 String dataString = jsonObject.toString();
-                dataBuilder.append(indexString+"\n"+dataString+"\n");
+                String requestUrl = "http://localhost:9200/seo/_doc/"+dataId+"/";
+                HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
+                HttpRequest httpRequest = httpRequestBuilder.uri(new URI(requestUrl))
+                        .header("Content-Type", "application/json")
+                        .PUT(HttpRequest.BodyPublishers.ofString(dataString))
+                        .build();
+                HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+                responseBuilder.append(httpResponse.body()+"\n");
             }
-
-            String data = dataBuilder.toString();
-            String requestUrl = "http://localhost:9200/bank/_bulk?pretty&refresh";
-            HttpClient httpClient = HttpClient.newBuilder().build();
-            HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
-            HttpRequest httpRequest = httpRequestBuilder.uri(new URI(requestUrl))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(data))
-                    .build();
-            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            return httpResponse.body();
+            return responseBuilder.toString();
         }
         catch (Exception e)
         {
