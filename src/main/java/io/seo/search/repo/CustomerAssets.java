@@ -3,10 +3,13 @@ package io.seo.search.repo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+@ApplicationScoped
 public class CustomerAssets implements Serializable
 {
     private static Logger logger = LoggerFactory.getLogger(CustomerAssets.class);
@@ -15,7 +18,7 @@ public class CustomerAssets implements Serializable
 
     public CustomerAssets()
     {
-        this.keywords = new HashMap<>();
+        this.keywords = new LinkedHashMap<>();
 
         this.keywords.put("shoes", "shoes");
         this.keywords.put("racket", "racket");
