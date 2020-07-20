@@ -2,7 +2,10 @@ package io.seo.output;
 
 import io.seo.search.repo.CustomerAssets;
 import io.seo.search.repo.ElasticSearchClient;
+
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,14 +46,18 @@ public class ContentProducer {
                 for(Map.Entry<String,String> entry:entrySet)
                 {
                     String keyword = entry.getValue();
-                    int count = StringUtils.countMatches(data, keyword);
+                    String plainText= Jsoup.parse(data).text();
+                    //logger.info(plainText);
+                    int count = StringUtils.countMatches(plainText, keyword);
                     if(count > 0)
                     {
                         ranking.put(keyword, count);
                     }
                 }
                 ranking = this.sortByValue(ranking);
-                logger.info(ranking.toString());
+                logger.info("**************************************************************");
+                logger.info("RANKING: "+ranking.toString());
+                logger.info("**************************************************************");
                 rankings.add(ranking);
 
                 //Produce the description
