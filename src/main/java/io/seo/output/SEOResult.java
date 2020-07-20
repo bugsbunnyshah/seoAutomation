@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class SEOResult implements Serializable{
     private static Logger logger = LoggerFactory.getLogger(SEOResult.class);
@@ -50,6 +51,11 @@ public class SEOResult implements Serializable{
 
     public String finalContent()
     {
-        return this.originalContent;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<title value=\""+ Arrays.toString(this.title)+"\">");
+        stringBuilder.append("<description value=\""+ Arrays.toString(this.description)+"\">");
+        stringBuilder.append(this.originalContent);
+
+        return stringBuilder.toString();
     }
 }
