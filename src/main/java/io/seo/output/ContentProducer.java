@@ -26,8 +26,13 @@ public class ContentProducer {
         {
             List<SEOResult> finalContent = new ArrayList<>();
 
-            List<String> search = this.elasticSearchClient.search(siteId);
             Map<String,String> keywords = this.customerAssets.getKeywords(siteId);
+            if(keywords == null || keywords.isEmpty())
+            {
+                return finalContent;
+            }
+
+            List<String> search = this.elasticSearchClient.search(siteId);
             List<Map<String, Integer>> rankings = new ArrayList<>();
 
             for (String content : search)

@@ -26,7 +26,7 @@ public class ConsumeSiteContentTests {
         String jsonResponse = response.getBody().prettyPrint();
         logger.info("****");
         logger.info(response.getStatusLine());
-        //logger.info(jsonResponse);
+        logger.info(jsonResponse);
         logger.info("****");
 
         response = given().get("/results/calculate/seven")
@@ -35,7 +35,7 @@ public class ConsumeSiteContentTests {
         jsonResponse = response.getBody().prettyPrint();
         logger.info("****");
         logger.info(response.getStatusLine());
-        //logger.info(jsonResponse);
+        logger.info(jsonResponse);
         logger.info("****");
     }
 

@@ -27,7 +27,7 @@ public class GetResultsTests {
         String jsonResponse = response.getBody().prettyPrint();
         logger.info("****");
         logger.info(response.getStatusLine());
-        //logger.info(jsonResponse);
+        logger.info(jsonResponse);
         logger.info("****");
     }
 

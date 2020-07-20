@@ -71,7 +71,7 @@ public class ElasticSearchClient {
             if(httpResponse.statusCode() == 200)
             {
                 JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
-                JsonArray arrayResults = jsonObject.get("hits").getAsJsonArray();
+                JsonArray arrayResults = jsonObject.get("hits").getAsJsonObject().get("hits").getAsJsonArray();
 
                 int length = arrayResults.size();
                 for (int i = 0; i < length; i++) {
