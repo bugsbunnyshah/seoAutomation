@@ -20,9 +20,13 @@ public class ContentProducerTests {
     @Test
     public void testProduceFinalContent() throws Exception
     {
-        List<String> finalContent = this.contentProducer.produceFinalContent();
-        //logger.info("*******");
-        //logger.info(finalContent.toString());
-        //logger.info("*******");
+        List<SEOResult> finalContent = this.contentProducer.produceFinalContent();
+
+        for(SEOResult seoResult: finalContent)
+        {
+            logger.info("*******");
+            logger.info(seoResult.finalContent());
+            logger.info("*******");
+        }
     }
 }
