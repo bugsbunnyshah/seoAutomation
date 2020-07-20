@@ -18,7 +18,7 @@ import java.util.List;
 public class ElasticSearchClient {
     private static Logger logger = LoggerFactory.getLogger(ElasticSearchClient.class);
 
-    public String updateIndex(JsonArray jsonDocs)
+    public String updateIndex(String indexName, JsonArray jsonDocs)
     {
         try
         {
@@ -31,7 +31,7 @@ public class ElasticSearchClient {
                 JsonObject jsonObject = jsonDocs.get(i).getAsJsonObject();
                 String dataId = jsonObject.get("dataId").getAsString();
                 String dataString = jsonObject.toString();
-                String requestUrl = "http://localhost:9200/seo/_doc/"+dataId+"/";
+                String requestUrl = "http://localhost:9200/"+indexName+"/_doc/"+dataId+"/";
                 HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
                 HttpRequest httpRequest = httpRequestBuilder.uri(new URI(requestUrl))
                         .header("Content-Type", "application/json")
@@ -49,7 +49,7 @@ public class ElasticSearchClient {
         }
     }
 
-    public List<String> search() throws Exception
+    public List<String> search(String indexName) throws Exception
     {
         try
         {
@@ -59,7 +59,7 @@ public class ElasticSearchClient {
                     "\"query\": { \"match_all\": {} }\n" +
                     "}";
             HttpClient httpClient = HttpClient.newBuilder().build();
-            String requestUrl = "http://localhost:9200/seo/_search/";
+            String requestUrl = "http://localhost:9200/"+indexName+"/_search/";
             HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder();
             HttpRequest httpRequest = httpRequestBuilder.uri(new URI(requestUrl))
                     .header("Content-Type", "application/json")
@@ -67,15 +67,18 @@ public class ElasticSearchClient {
                     .build();
             HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             String responseJson = httpResponse.body();
-            JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
-            JsonArray arrayResults = jsonObject.get("hits").getAsJsonObject().get("hits").getAsJsonArray();
 
-            int length = arrayResults.size();
-            for(int i=0; i<length; i++)
+            if(httpResponse.statusCode() == 200)
             {
-                JsonObject local = arrayResults.get(i).getAsJsonObject();
-                String content = local.get("_source").getAsJsonObject().get("data").getAsString();
-                results.add(content);
+                JsonObject jsonObject = JsonParser.parseString(responseJson).getAsJsonObject();
+                JsonArray arrayResults = jsonObject.get("hits").getAsJsonArray();
+
+                int length = arrayResults.size();
+                for (int i = 0; i < length; i++) {
+                    JsonObject local = arrayResults.get(i).getAsJsonObject();
+                    String content = local.get("_source").getAsJsonObject().get("data").getAsString();
+                    results.add(content);
+                }
             }
 
             return results;

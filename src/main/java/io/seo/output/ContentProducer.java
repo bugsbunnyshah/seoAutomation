@@ -20,14 +20,14 @@ public class ContentProducer {
     @Inject
     private CustomerAssets customerAssets;
 
-    public List<SEOResult> produceFinalContent()
+    public List<SEOResult> produceFinalContent(String siteId)
     {
         try
         {
             List<SEOResult> finalContent = new ArrayList<>();
 
-            List<String> search = this.elasticSearchClient.search();
-            Map<String,String> keywords = this.customerAssets.getKeywords();
+            List<String> search = this.elasticSearchClient.search(siteId);
+            Map<String,String> keywords = this.customerAssets.getKeywords(siteId);
             List<Map<String, Integer>> rankings = new ArrayList<>();
 
             for (String content : search)
@@ -39,21 +39,29 @@ public class ContentProducer {
                 {
                     String keyword = entry.getValue();
                     int count = StringUtils.countMatches(data, keyword);
-                    ranking.put(keyword, count);
+                    if(count > 0)
+                    {
+                        ranking.put(keyword, count);
+                    }
                 }
                 ranking = this.sortByValue(ranking);
                 logger.info(ranking.toString());
                 rankings.add(ranking);
 
-                //Produce the title
-                String[] tempTitle = ranking.keySet().toArray(new String[0]);
-                String[] title = new String[3];
-                title[0] = tempTitle[0];
-                title[1] = tempTitle[1];
-                title[2] = tempTitle[2];
-
                 //Produce the description
                 String[] description = ranking.keySet().toArray(new String[0]);
+
+                //Produce the title
+                int titleLength = 3;
+                if(description.length < 3)
+                {
+                   titleLength = description.length;
+                }
+                String[] title = new String[titleLength];
+                for(int i=0; i<titleLength; i++)
+                {
+                    title[i] = description[i];
+                }
 
                 SEOResult seoResult = new SEOResult(title,description,content);
                 finalContent.add(seoResult);

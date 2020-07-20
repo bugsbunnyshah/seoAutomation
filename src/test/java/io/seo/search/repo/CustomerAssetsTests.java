@@ -21,7 +21,7 @@ public class CustomerAssetsTests {
     public void testGetKeywords() throws Exception
     {
         CustomerAssets customerAssets = new CustomerAssets();
-        Map<String,String> keywords = customerAssets.getKeywords();
+        Map<String,String> keywords = customerAssets.getKeywords("seo");
         logger.info("*******");
         logger.info(keywords.toString());
         logger.info("*******");

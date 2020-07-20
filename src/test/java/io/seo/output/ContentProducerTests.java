@@ -20,8 +20,8 @@ public class ContentProducerTests {
     @Test
     public void testProduceFinalContent() throws Exception
     {
-        List<SEOResult> finalContent = this.contentProducer.produceFinalContent();
-
+        List<SEOResult> finalContent = this.contentProducer.produceFinalContent("seo");
+        logger.info("ResultSize: "+finalContent.size());
         for(SEOResult seoResult: finalContent)
         {
             logger.info("*******");

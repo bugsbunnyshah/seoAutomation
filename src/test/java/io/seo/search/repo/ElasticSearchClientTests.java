@@ -52,13 +52,13 @@ public class ElasticSearchClientTests {
         jsonObject.addProperty("data", productsDocument);
         jsonArray.add(jsonObject);
 
-        logger.info(this.elasticSearchClient.updateIndex(jsonArray));
+        logger.info(this.elasticSearchClient.updateIndex("seo", jsonArray));
     }
 
     @Test
     public void testSearch() throws Exception
     {
-        List<String> search = this.elasticSearchClient.search();
+        List<String> search = this.elasticSearchClient.search("seo");
 
         for(String content:search)
         {

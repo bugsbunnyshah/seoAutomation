@@ -4,39 +4,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Singleton;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-@ApplicationScoped
+@Singleton
 public class CustomerAssets implements Serializable
 {
     private static Logger logger = LoggerFactory.getLogger(CustomerAssets.class);
 
-    private Map<String,String> keywords;
+    private Map<String, Map<String,String>> customerData;
 
     public CustomerAssets()
     {
-        this.keywords = new LinkedHashMap<>();
+        this.customerData = new LinkedHashMap<>();
+        Map<String, String> keywords = new LinkedHashMap<>();
 
-        this.keywords.put("shoes", "shoes");
-        this.keywords.put("racket", "racket");
-        this.keywords.put("kit", "kit");
-        this.keywords.put("socks", "socks");
-        this.keywords.put("sweatband", "sweatband");
-        this.keywords.put("t-shirt", "t-shirt");
-        this.keywords.put("tshirt", "tshirt");
-        this.keywords.put("shorts", "shorts");
+        keywords.put("shoes", "shoes");
+        keywords.put("racket", "racket");
+        keywords.put("kit", "kit");
+        keywords.put("socks", "socks");
+        keywords.put("sweatband", "sweatband");
+        keywords.put("t-shirt", "t-shirt");
+        keywords.put("tshirt", "tshirt");
+        keywords.put("shorts", "shorts");
+
+        this.customerData.put("seo", keywords);
     }
 
-    public Map<String, String> getKeywords()
+    public Map<String, String> getKeywords(String customerId)
     {
-        return keywords;
+        return this.customerData.get(customerId);
     }
 
-    public void setKeywords(Map<String, String> keywords)
+    public void setKeywords(String customerId, Map<String, String> keywords)
     {
-        this.keywords = keywords;
+        this.customerData.put(customerId, keywords);
     }
 }

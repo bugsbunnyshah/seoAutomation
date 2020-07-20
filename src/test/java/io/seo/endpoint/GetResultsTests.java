@@ -21,13 +21,13 @@ public class GetResultsTests {
     @Test
     public void testGetResults() throws Exception
     {
-        Response response = given().get("/results/calculate")
+        Response response = given().get("/results/calculate/seven")
                 .andReturn();
 
         String jsonResponse = response.getBody().prettyPrint();
         logger.info("****");
         logger.info(response.getStatusLine());
-        logger.info(jsonResponse);
+        //logger.info(jsonResponse);
         logger.info("****");
     }
 

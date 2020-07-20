@@ -54,7 +54,7 @@ public class SEOResult implements Serializable{
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<title value=\""+ Arrays.toString(this.title)+"\">");
         stringBuilder.append("<description value=\""+ Arrays.toString(this.description)+"\">");
-        stringBuilder.append(this.originalContent);
+        //stringBuilder.append(this.originalContent);
 
         return stringBuilder.toString();
     }
